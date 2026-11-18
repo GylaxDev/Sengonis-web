@@ -1,0 +1,4 @@
+/* bar chart: v = values, l = "YYYY-MM" labels, pos = tooltip formatter */
+function bars(v,l,pos){const w=440,h=150,top=10,mx=Math.max(0,...v),mn=Math.min(0,...v),sp=(mx-mn)||1,y=x=>top+(mx-x)/sp*(h-top),bw=w/Math.max(1,v.length),y0=y(0);
+ const grid=[0,.5,1].map(t=>`<line class="gl" x1="0" x2="${w}" y1="${top+t*(h-top)}" y2="${top+t*(h-top)}"/>`).join("");
+ return`<svg class="ch" viewBox="0 0 ${w} ${h+18}" role="img" aria-label="Bar chart">${grid}<line class="z" x1="0" x2="${w}" y1="${y0}" y2="${y0}"/>${v.map((x,i)=>`<rect class="b${x<0?" neg":""}" style="animation-delay:${i*45}ms" x="${i*bw+bw*.2}" width="${bw*.6}" y="${Math.min(y(x),y0)}" height="${Math.max(2,Math.abs(y(x)-y0))}" rx="${Math.min(7,bw*.3)}"><title>${l[i]}: ${esc(pos(x))}</title></rect><text x="${i*bw+bw/2}" y="${h+14}" text-anchor="middle">${MONS[+l[i].slice(5)-1]}</text>`).join("")}</svg>`}
