@@ -1,7 +1,7 @@
 /* Authentication and the signed-in user. Sessions store only a user id,
    matching the original demo behaviour (there is no backend). */
 
-import { STORAGE, config } from "../config.js";
+import { STORAGE, config } from "../core/config.js";
 import { state } from "./store.js";
 
 let currentUser = null;

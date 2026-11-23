@@ -1,6 +1,6 @@
 /* Small helpers shared by every layer: DOM, formatting, dates and CSV. */
 
-import { config } from "../config.js";
+import { config } from "./config.js";
 
 export const $ = (selector) => document.querySelector(selector);
 export const $$ = (selector) => [...document.querySelectorAll(selector)];

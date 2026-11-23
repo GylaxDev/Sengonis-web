@@ -1,6 +1,6 @@
 /* Sign-in screen. */
 
-import { config } from "../config.js";
+import { config } from "../core/config.js";
 import { esc } from "../core/utils.js";
 import { ic } from "../core/icons.js";
 import { state } from "../model/store.js";

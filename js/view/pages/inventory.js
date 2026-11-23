@@ -1,6 +1,6 @@
 /* Inventory: seedling purchases, operating costs and sales. */
 
-import { TRANSACTION_TYPES } from "../../config.js";
+import { TRANSACTION_TYPES } from "../../core/config.js";
 import { formatDate, money, moneyShort } from "../../core/utils.js";
 import { ic } from "../../core/icons.js";
 import { auth } from "../../model/auth.js";

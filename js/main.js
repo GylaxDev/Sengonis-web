@@ -1,7 +1,7 @@
 /* Application entry point: load settings and data, restore the session,
    connect the global listeners and draw the first screen. */
 
-import { config, loadSettings } from "./config.js";
+import { config, loadSettings } from "./core/config.js";
 import { auth, restoreSession } from "./model/auth.js";
 import { initGeo } from "./model/geo.js";
 import { load } from "./model/store.js";
@@ -11,9 +11,14 @@ import { closeAll } from "./controller/overlays.js";
 import { logout, sessionView } from "./controller/session.js";
 import { idleFor, touch } from "./controller/activity.js";
 import { mountMap } from "./controller/map.js";
-import { onRendered, render } from "./controller/router.js";
+import {
+  installRouting,
+  onRendered,
+  readRoute,
+  render,
+} from "./controller/router.js";
 import { installEvents } from "./controller/events.js";
-import { installDevtools } from "./devtools.js";
+import { installDevtools } from "./core/devtools.js";
 
 loadSettings();
 applyTheme();
@@ -25,12 +30,14 @@ restoreSession();
 ui.period = config.period;
 ui.view =
   config.landing === "users" && !auth.isOwner() ? "home" : config.landing;
+readRoute();
 
 touch();
 onRendered((view) => {
   if (view === "map") mountMap();
 });
 installEvents();
+installRouting();
 installDevtools();
 
 setInterval(() => {

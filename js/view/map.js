@@ -1,6 +1,6 @@
 /* Map page markup and the blocks side panel. */
 
-import { MAP_COLORS } from "../config.js";
+import { MAP_COLORS } from "../core/config.js";
 import { ic } from "../core/icons.js";
 import { auth } from "../model/auth.js";
 import { state } from "../model/store.js";

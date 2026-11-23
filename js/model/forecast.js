@@ -1,7 +1,7 @@
 /* Random Forest regression: bagged trees, random feature subsets, MSE splits.
    The model is small on purpose: it runs in the browser on demo data. */
 
-import { config } from "../config.js";
+import { config } from "../core/config.js";
 import { seededRandom } from "../core/utils.js";
 import { state } from "./store.js";
 

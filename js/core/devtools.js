@@ -3,23 +3,23 @@
    working after the move to ES modules. */
 
 import { config } from "./config.js";
-import { auth } from "./model/auth.js";
-import { state, save } from "./model/store.js";
-import { ui } from "./model/ui.js";
-import { plants } from "./model/plants.js";
-import { monthly, loss, predict } from "./model/forecast.js";
-import { navigation, createActions } from "./view/layout.js";
-import { settingsSections } from "./view/settings.js";
-import { tableState, tables } from "./view/table.js";
-import { actions } from "./controller/actions.js";
-import { closeAll, closeModal, done } from "./controller/overlays.js";
-import { render } from "./controller/router.js";
+import { auth } from "../model/auth.js";
+import { state, save } from "../model/store.js";
+import { ui } from "../model/ui.js";
+import { plants } from "../model/plants.js";
+import { monthly, loss, predict } from "../model/forecast.js";
+import { navigation, createActions } from "../view/layout.js";
+import { settingsSections } from "../view/settings.js";
+import { tableState, tables } from "../view/table.js";
+import { actions } from "../controller/actions.js";
+import { closeAll, closeModal, done } from "../controller/overlays.js";
+import { render } from "../controller/router.js";
 import {
   getMap,
   isMapReady,
   selectedBlock,
   mapClick,
-} from "./controller/map.js";
+} from "../controller/map.js";
 
 export function installDevtools() {
   window.A = actions;

@@ -1,6 +1,6 @@
 /* Weather card shown on the dashboard and the map page. */
 
-import { config } from "../config.js";
+import { config } from "../core/config.js";
 import { ic } from "../core/icons.js";
 import {
   currentWeather,

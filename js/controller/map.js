@@ -1,7 +1,7 @@
 /* MapLibre controller. The map element is created once and moved between
    page renders so panning and tilting survive UI updates. */
 
-import { MAP_STYLE_URL } from "../config.js";
+import { MAP_STYLE_URL } from "../core/config.js";
 import { $, esc, today } from "../core/utils.js";
 import { state } from "../model/store.js";
 import { ui } from "../model/ui.js";

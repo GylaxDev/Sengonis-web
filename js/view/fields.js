@@ -1,6 +1,6 @@
 /* Declarative field definitions used by the modal form builder. */
 
-import { CAUSES, STATUSES, TRANSACTION_TYPES } from "../config.js";
+import { CAUSES, STATUSES, TRANSACTION_TYPES } from "../core/config.js";
 
 export const numberField = (key, label, integer) => ({
   k: key,

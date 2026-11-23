@@ -1,6 +1,6 @@
 /* Applies persisted appearance settings to the document. */
 
-import { config } from "../config.js";
+import { config } from "../core/config.js";
 
 export function applyTheme() {
   const root = document.documentElement;

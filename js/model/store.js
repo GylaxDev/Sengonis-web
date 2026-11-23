@@ -1,7 +1,7 @@
 /* The data store: seed data, localStorage persistence and the audit log.
    This module owns the one mutable application state object. */
 
-import { CAUSES, STORAGE } from "../config.js";
+import { CAUSES, STORAGE } from "../core/config.js";
 import { monthOffset, seededRandom } from "../core/utils.js";
 
 export let state = null;

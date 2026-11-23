@@ -4,7 +4,7 @@ import {
   STATUSES,
   STAGE_CHART_COLORS,
   config,
-} from "../../config.js";
+} from "../../core/config.js";
 import {
   esc,
   formatMonth,

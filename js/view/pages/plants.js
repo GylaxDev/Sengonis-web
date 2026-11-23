@@ -1,6 +1,6 @@
 /* Plants list. */
 
-import { STATUSES } from "../../config.js";
+import { STATUSES } from "../../core/config.js";
 import { esc, formatAge, formatDate, monthsOld } from "../../core/utils.js";
 import { ic } from "../../core/icons.js";
 import { state } from "../../model/store.js";

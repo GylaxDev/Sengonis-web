@@ -1,7 +1,7 @@
 /* Geometry and map data: blocks, plant positions and GeoJSON builders.
    MapLibre itself lives in the map controller; this module is data only. */
 
-import { DEFAULT_CENTER, MAP_COLORS } from "../config.js";
+import { DEFAULT_CENTER, MAP_COLORS } from "../core/config.js";
 import { state } from "./store.js";
 
 const METRES_PER_LNG = (lat) => 111320 * Math.cos((lat * Math.PI) / 180);

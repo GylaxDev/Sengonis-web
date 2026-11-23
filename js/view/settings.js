@@ -1,7 +1,7 @@
 /* Settings page. Appearance and preferences are stored per browser;
    profile and password belong to the signed-in user. */
 
-import { config } from "../config.js";
+import { config } from "../core/config.js";
 import { esc } from "../core/utils.js";
 import { ic } from "../core/icons.js";
 import { auth } from "../model/auth.js";

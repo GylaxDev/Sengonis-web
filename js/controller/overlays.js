@@ -1,6 +1,6 @@
 /* Modal dialogs: generic forms, confirmation prompts and the post-save flow. */
 
-import { ACTION_LABELS } from "../config.js";
+import { ACTION_LABELS } from "../core/config.js";
 import { $, esc } from "../core/utils.js";
 import { ic } from "../core/icons.js";
 import { auth } from "../model/auth.js";

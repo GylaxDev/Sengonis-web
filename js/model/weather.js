@@ -1,7 +1,7 @@
 /* Weather data from Open-Meteo (free, no API key). Raw values are kept in
    metric units; the view converts them using Settings → Preferences. */
 
-import { STORAGE, config } from "../config.js";
+import { STORAGE, config } from "../core/config.js";
 import { state } from "./store.js";
 
 let weather = null;

@@ -1,7 +1,7 @@
 /* Global input plumbing: click delegation, search, settings changes,
    keyboard shortcuts and a few form safeguards. */
 
-import { DEFAULTS } from "../config.js";
+import { DEFAULTS } from "../core/config.js";
 import { $, $$ } from "../core/utils.js";
 import { auth } from "../model/auth.js";
 import { ui } from "../model/ui.js";

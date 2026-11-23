@@ -1,7 +1,7 @@
 /* The action table behind every [data-a] button. Each function receives the
    button's data-i value, exactly like the original A object. */
 
-import { CAUSES, config, saveSettings } from "../config.js";
+import { CAUSES, config, saveSettings } from "../core/config.js";
 import { $, today } from "../core/utils.js";
 import { ic } from "../core/icons.js";
 import { auth } from "../model/auth.js";
@@ -172,9 +172,7 @@ export const actions = {
   },
   srch: (value) => {
     const [view, query] = String(value).split("|");
-    navigate(view);
-    ui.query = query;
-    render();
+    navigate(view, query);
   },
   cblk: () => {
     navigate("map");

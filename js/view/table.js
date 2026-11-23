@@ -2,7 +2,7 @@
    columns: {k, l, v?: row=>raw value, h?: row=>html, r?: right-align}
    options: {name, icon, empty, act?: row=>html, filtered?: boolean} */
 
-import { config } from "../config.js";
+import { config } from "../core/config.js";
 import { download, esc, today, toCSV } from "../core/utils.js";
 import { ic } from "../core/icons.js";
 import { toast } from "./components.js";

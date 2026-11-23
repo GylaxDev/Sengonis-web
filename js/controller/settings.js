@@ -1,6 +1,6 @@
 /* Settings actions: config changes, profile, password, backup and exports. */
 
-import { DEFAULTS, config, saveSettings } from "../config.js";
+import { DEFAULTS, config, saveSettings } from "../core/config.js";
 import { $, download, toCSV, today } from "../core/utils.js";
 import { auth, writeSession } from "../model/auth.js";
 import {

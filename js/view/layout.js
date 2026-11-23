@@ -1,6 +1,6 @@
 /* Application shell: navigation, sidebar, top bar and notifications. */
 
-import { config } from "../config.js";
+import { config } from "../core/config.js";
 import { esc } from "../core/utils.js";
 import { ic } from "../core/icons.js";
 import { auth } from "../model/auth.js";
