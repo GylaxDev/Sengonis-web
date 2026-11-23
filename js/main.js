@@ -1,8 +1,61 @@
-/* boot: apply saved settings, load data, restore the session, start the idle timer */
-let ACT=Date.now();
-applyCfg();load();
-{const s=sessGet(),u=s&&S.users.find(x=>x.id==s.id&&x.aktif);if(u){U=u;V=(CFG.landing=="users"&&u.role!="Owner")?"home":CFG.landing}}
-["click","keydown","pointerdown","scroll","touchstart"].forEach(ev=>addEventListener(ev,()=>ACT=Date.now(),{passive:true,capture:true}));
-setInterval(()=>{if(U&&CFG.autoLogout&&Date.now()-ACT>CFG.autoLogout*6e4){ERR=`You were signed out after ${CFG.autoLogout} minutes of inactivity.`;closeAll();A.out()}},15000);
-matchMedia("(prefers-color-scheme:dark)").addEventListener?.("change",()=>{applyCfg();if(U&&CFG.theme=="system")render()});
+/* Application entry point: load settings and data, restore the session,
+   connect the global listeners and draw the first screen. */
+
+import { config, loadSettings } from "./core/config.js";
+import { auth, restoreSession } from "./model/auth.js";
+import { initGeo } from "./model/geo.js";
+import { load } from "./model/store.js";
+import { ui } from "./model/ui.js";
+import { applyTheme } from "./view/theme.js";
+import { closeAll } from "./controller/overlays.js";
+import { logout, sessionView } from "./controller/session.js";
+import { idleFor, touch } from "./controller/activity.js";
+import { mountMap } from "./controller/map.js";
+import {
+  installRouting,
+  onRendered,
+  readRoute,
+  render,
+} from "./controller/router.js";
+import { installEvents } from "./controller/events.js";
+import { installDevtools } from "./core/devtools.js";
+
+loadSettings();
+applyTheme();
+
+load();
+initGeo();
+restoreSession();
+
+ui.period = config.period;
+ui.view =
+  config.landing === "users" && !auth.isOwner() ? "home" : config.landing;
+readRoute();
+
+touch();
+onRendered((view) => {
+  if (view === "map") mountMap();
+});
+installEvents();
+installRouting();
+installDevtools();
+
+setInterval(() => {
+  if (!auth.current || !config.autoLogout) return;
+  if (idleFor() <= config.autoLogout * 60000) return;
+
+  sessionView.error =
+    "You were signed out after " +
+    config.autoLogout +
+    " minutes of inactivity.";
+  logout();
+  closeAll();
+  render();
+}, 15000);
+
+matchMedia("(prefers-color-scheme:dark)").addEventListener?.("change", () => {
+  applyTheme();
+  if (auth.current && config.theme === "system") render();
+});
+
 render();
