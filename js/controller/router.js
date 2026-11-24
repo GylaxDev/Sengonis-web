@@ -41,14 +41,10 @@ const REPORT_TABS = new Set(["fin", "dead", "log"]);
 /* The app can be served from a domain root or a subfolder (e.g. /V2/).
    Work out the prefix once, before any navigation rewrites the path. */
 function detectBasePath() {
-  const parts = location.pathname
-    .replace(/\/index\.html$/, "")
-    .split("/")
-    .filter(Boolean);
-
-  const viewIndex = parts.findIndex((part) => VIEWS.includes(part));
-  const baseParts = viewIndex >= 0 ? parts.slice(0, viewIndex) : parts;
-  return "/" + baseParts.join("/");
+  // index.html sets <base> synchronously before any asset is requested, so
+  // document.baseURI is the single source of truth for deep links and subfolders.
+  const path = new URL(document.baseURI).pathname.replace(/\/+$/, "");
+  return path || "/";
 }
 
 const basePath = detectBasePath();
@@ -180,10 +176,13 @@ function bindLogin() {
   form.onsubmit = (event) => {
     event.preventDefault();
     const data = new FormData(form);
-    attemptLogin(
+    const loggedIn = attemptLogin(
       String(data.get("u") ?? "").trim(),
       String(data.get("p") ?? ""),
     );
+    // readRoute() ran before there was a session, so role-gated deep links
+    // (e.g. ?section=plantation) were skipped. Re-read now that auth is known.
+    if (loggedIn) readRoute();
     render();
   };
 }
