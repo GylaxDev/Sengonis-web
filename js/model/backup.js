@@ -114,4 +114,18 @@ export const CSV_EXPORTS = {
       state.log.map((entry) => [entry.t, entry.u, entry.x]),
     ];
   },
+
+  users() {
+    return [
+      "users",
+      ["Name", "Username", "Role", "Phone", "Status"],
+      state.users.map((user) => [
+        user.nama,
+        user.username,
+        user.role,
+        user.telp,
+        user.aktif ? "Active" : "Inactive",
+      ]),
+    ];
+  },
 };

@@ -41,13 +41,10 @@ const REPORT_TABS = new Set(["fin", "dead", "log"]);
 /* The app can be served from a domain root or a subfolder (e.g. /V2/).
    Work out the prefix once, before any navigation rewrites the path. */
 function detectBasePath() {
-  const parts = location.pathname
-    .replace(/\/index\.html$/, "")
-    .split("/")
-    .filter(Boolean);
-
-  if (parts.length && VIEWS.includes(parts[parts.length - 1])) parts.pop();
-  return "/" + parts.join("/");
+  // index.html sets <base> synchronously before any asset is requested, so
+  // document.baseURI is the single source of truth for deep links and subfolders.
+  const path = new URL(document.baseURI).pathname.replace(/\/+$/, "");
+  return path || "/";
 }
 
 const basePath = detectBasePath();
@@ -63,6 +60,7 @@ function pathFor(view) {
    affect a table are deliberately left out; q/section/tab/arch are shareable. */
 function writeRoute(mode = "replace") {
   if (!auth.current) return;
+  if (!VIEWS.includes(ui.view)) ui.view = "home";
 
   try {
     const url = new URL(location.href);
@@ -94,8 +92,18 @@ function writeRoute(mode = "replace") {
 /* Read a deep link back into the UI state. Unknown values are ignored. */
 export function readRoute() {
   const segments = location.pathname.split("/").filter(Boolean);
-  const view = segments[segments.length - 1];
-  if (view && VIEWS.includes(view)) ui.view = view;
+
+  // Find a recognised view anywhere in the path (so a subfolder base path
+  // like /V2/settings still resolves to "settings"); fall back to home when
+  // the address does not name a view (e.g. "/" or "/unknown/path").
+  let view = null;
+  for (let index = segments.length - 1; index >= 0; index--) {
+    if (VIEWS.includes(segments[index])) {
+      view = segments[index];
+      break;
+    }
+  }
+  ui.view = view || "home";
 
   const params = new URLSearchParams(location.search);
   ui.query = params.get("q") || "";
@@ -126,17 +134,24 @@ export function onRendered(callback) {
 }
 
 export function navigate(view, query = "") {
+  if (!VIEWS.includes(view)) view = "home";
   ui.view = view;
-  ui.query = query;
+  ui.query = query || "";
   ui.animate = true;
   resetTablePages();
   writeRoute("push");
   render();
-  window.scrollTo(0, 0);
+  try {
+    window.scrollTo(0, 0);
+  } catch (error) {
+    /* Some test environments do not implement scrollTo. */
+  }
 }
 
 export function showTab(tab) {
-  ui.tab = tab;
+  if (REPORT_TABS.has(tab) && (tab !== "log" || auth.isOwner())) {
+    ui.tab = tab;
+  }
   ui.query = "";
   ui.animate = true;
   writeRoute("replace");
@@ -144,7 +159,11 @@ export function showTab(tab) {
 }
 
 export function showSettingsSection(section) {
-  ui.settingsSection = section;
+  if (SETTINGS_SECTIONS.has(section)) {
+    if (section !== "plantation" || auth.isOwner()) {
+      ui.settingsSection = section;
+    }
+  }
   ui.animate = false;
   writeRoute("replace");
   render();
@@ -157,10 +176,13 @@ function bindLogin() {
   form.onsubmit = (event) => {
     event.preventDefault();
     const data = new FormData(form);
-    attemptLogin(
+    const loggedIn = attemptLogin(
       String(data.get("u") ?? "").trim(),
       String(data.get("p") ?? ""),
     );
+    // readRoute() ran before there was a session, so role-gated deep links
+    // (e.g. ?section=plantation) were skipped. Re-read now that auth is known.
+    if (loggedIn) readRoute();
     render();
   };
 }

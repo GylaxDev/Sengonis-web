@@ -140,7 +140,7 @@ export const actions = {
     document.querySelectorAll(".pop").forEach((element) => {
       element.hidden = true;
     });
-    popover.hidden = wasHidden;
+    popover.hidden = !wasHidden;
   },
   pal: () => openPalette((name, argument) => actions[name]?.(argument)),
   palgo: (index) => paletteGo(index),
@@ -172,7 +172,7 @@ export const actions = {
   },
   srch: (value) => {
     const [view, query] = String(value).split("|");
-    navigate(view, query);
+    navigate(view, query || "");
   },
   cblk: () => {
     navigate("map");

@@ -22,6 +22,7 @@ export function weatherKey() {
 
 export function currentWeather() {
   if (!weather || !state || !state.geo) return null;
+  if (!weather.cur || !weather.daily) return null;
   return weather.k === weatherKey() ? weather : null;
 }
 
@@ -45,6 +46,9 @@ export function clearWeatherCache() {
 /* Returns [text, level]: 0 fine, 1 caution, 2 danger. Thresholds live in
    Settings → Plantation. */
 export function weatherAdvice(data) {
+  if (!data || !data.cur || !data.daily) {
+    return ["Conditions look fine for fieldwork.", 0];
+  }
   const current = data.cur;
   const daily = data.daily;
   const rain = daily.precipitation_sum
@@ -95,6 +99,9 @@ export async function loadWeather({ force = false } = {}) {
     );
     if (!response.ok) throw new Error("Weather request failed");
     const json = await response.json();
+    if (!json || !json.current || !json.daily) {
+      throw new Error("Unexpected weather response");
+    }
 
     weather = {
       at: Date.now(),
