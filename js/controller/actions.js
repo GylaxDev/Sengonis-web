@@ -172,7 +172,7 @@ export const actions = {
   },
   srch: (value) => {
     const [view, query] = String(value).split("|");
-    navigate(view, query);
+    navigate(view, query || "");
   },
   cblk: () => {
     navigate("map");

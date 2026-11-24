@@ -111,7 +111,7 @@ export function inventoryPage() {
       "Pending validation",
       "Validated",
       "Rejected",
-    ])}</div><div class="row">${exportButton("inventory")}</div></div>` +
+    ])}</div><div class="row">${exportButton("tx")}</div></div>` +
     dataTable("inventory", columns, rows, {
       name: "transactions",
       icon: "receipt",
