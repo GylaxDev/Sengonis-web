@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Sengonis · Plantation manager (V2)
 
 Static SPA dengan struktur Model–View–Controller berbasis ES modules. Tanpa build step.
@@ -36,3 +37,6 @@ Navigasi disinkronkan ke URL memakai History API:
 Deep link dan tombol back/forward didukung. `vercel.json` sudah meneruskan semua path ke `index.html`.
 
 Data demo dan preferensi disimpan di `localStorage`; tidak ada backend/database.
+=======
+# Sengonis
+>>>>>>> b10d52b (fix)
