@@ -52,16 +52,54 @@ vercel.json
 
 ## Menjalankan SPA statis
 
-Tidak perlu PHP. Jalankan server dengan fallback ke `public/index.html`:
+Tidak perlu PHP dan tidak perlu `npm install`. Cukup Node.js, lalu dari folder
+projek:
 
 ```bash
-npx serve -s public
-# atau server lokal yang sudah dipakai saat debugging:
-node /tmp/opencode/serve-spa.mjs   # root = .../V2/public
+npm run serve
+# atau langsung:
+node server.mjs
 ```
 
 Buka `http://localhost:3000`. Deep link seperti `/settings?section=appearance`
-tetap bekerja karena `public/index.html` menghitung `<base>` secara sinkron.
+tetap bekerja lewat fallback ke `public/index.html`.
+
+`server.mjs` memakai path relatif terhadap file-nya sendiri, jadi aman jika
+folder dipindah atau di-zip ke komputer lain (termasuk Windows).
+
+Sumber JS/CSS ada di `resources/`, sedangkan salinan untuk browser ada di
+`public/assets/`. Setelah mengubah file di `resources/`, jalankan:
+
+```bash
+npm run sync
+```
+
+## Kenapa zip lama gagal di Windows?
+
+Versi sebelumnya memakai symlink:
+
+```text
+public/assets/js  -> ../../resources/js
+public/assets/css -> ../../resources/css
+```
+
+Zip tidak selalu merekam symlink dengan benar. Di Windows, symlink sering
+berubah menjadi file teks berisi target path, atau tidak dibuat sama sekali
+karena butuh Developer Mode / hak administrator. Browser lalu menerima file
+bukan JavaScript/CSS dan SPA gagal boot.
+
+Sekarang symlink sudah diganti dengan **file/folder asli** di `public/assets`,
+jadi hasil zip bisa langsung dipakai di Windows tanpa pengaturan khusus.
+
+Catatan lain untuk teman yang menerima zip:
+
+- Jangan buka `index.html` dengan double-click (`file:///`). ES module akan
+  diblokir browser. Tetap jalankan `node server.mjs` atau `npx serve -s public`.
+- Jika pakai Laravel, PHP/Composer harus tersedia. `vendor/` dan `.env` tidak
+  ikut jika kamu hanya mengekspor file dari Git; jalankan `composer install`,
+  `cp .env.example .env`, `php artisan key:generate`, lalu migrate/seed.
+- `python3 -m http.server` dari root tidak bisa fallback deep link; pakai
+  `node server.mjs` saja.
 
 ## Menjalankan Laravel
 

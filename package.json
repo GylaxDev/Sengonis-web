@@ -2,8 +2,11 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "serve": "node server.mjs",
+        "start": "node server.mjs",
+        "sync": "node scripts/sync-assets.mjs",
         "dev": "vite",
-        "build": "vite build"
+        "build": "npm run sync && vite build"
     },
     "devDependencies": {
         "laravel-vite-plugin": "^2.0.0",
