@@ -33,7 +33,7 @@ function send(res, file, status = 200) {
   fs.createReadStream(file).pipe(res);
 }
 
-http
+const server = http
   .createServer((req, res) => {
     const pathname = decodeURIComponent(
       new URL(req.url, `http://${req.headers.host || "localhost"}`).pathname,
@@ -52,7 +52,20 @@ http
 
     // SPA fallback: /settings?section=appearance etc. all load index.html.
     send(res, fallback);
-  })
-  .listen(port, () => {
-    console.log(`Sengonis running at http://localhost:${port}`);
   });
+
+server.on("error", (error) => {
+  if (error.code === "EADDRINUSE") {
+    console.error(
+      `Port ${port} is already in use. Stop the other server or run:\n` +
+        `  PORT=${port + 1} node server.mjs\n` +
+        `Then open http://localhost:${port + 1}`,
+    );
+    process.exit(1);
+  }
+  throw error;
+});
+
+server.listen(port, () => {
+  console.log(`Sengonis running at http://localhost:${port}`);
+});
