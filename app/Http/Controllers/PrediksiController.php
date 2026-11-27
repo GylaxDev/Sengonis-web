@@ -8,14 +8,6 @@ use Illuminate\Http\Request;
 
 class PrediksiController extends Controller
 {
-    public function index(PrediksiService $service)
-    {
-        return view('prediksi.index', [
-            'items' => Prediksi::orderByDesc('tanggal_prediksi')->orderByDesc('id_prediksi')->paginate(10),
-            'estimasi' => $service->hitung(),
-        ]);
-    }
-
     public function store(Request $request, PrediksiService $service)
     {
         abort_unless($request->user()->isOwner(), 403);

@@ -113,7 +113,7 @@
 #map-block-list .map-block-row:first-of-type{border-top:0}
 .map-block-focus{padding-left:0}
 .map-block-row .btn{font-size:.75rem}
-.prediction-content{display:block;max-width:900px}
+#prediksi{grid-template-columns:minmax(0,1fr)}
 #sengonis-modal:empty{display:none}
 .plant-modal{width:min(620px,100%);padding:28px}
 .plant-modal .form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}

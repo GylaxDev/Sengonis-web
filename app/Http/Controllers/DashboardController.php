@@ -42,7 +42,8 @@ class DashboardController extends Controller
             'pendingKeuangan' => Keuangan::where('status_validasi', 'Pending validation')->count(),
             'pendingLaporan' => LaporanKeuangan::where('status_verifikasi', 'Draft')->where('status_arsip', false)->count(),
             'pendingKematian' => LaporanKematian::where('status_verifikasi', 'Draft')->where('status_arsip', false)->count(),
-            'prediksi' => Prediksi::orderByDesc('tanggal_prediksi')->orderByDesc('id_prediksi')->first(),
+            'riwayatPrediksi' => Prediksi::orderByDesc('tanggal_prediksi')->orderByDesc('id_prediksi')
+                ->paginate(10)->appends(['periode' => $periode])->fragment('prediksi'),
             'prediksiSaatIni' => $prediksiService->hitung(),
         ]);
     }

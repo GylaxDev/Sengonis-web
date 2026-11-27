@@ -30,7 +30,7 @@ Route::middleware(['auth', 'active'])->group(function () {
     Route::resource('keuangan', KeuanganController::class)->except(['show']);
     Route::resource('laporan-keuangan', LaporanKeuanganController::class)->except(['show', 'destroy']);
     Route::resource('laporan-kematian', LaporanKematianController::class)->except(['show', 'destroy']);
-    Route::get('/prediksi', [PrediksiController::class, 'index'])->name('prediksi.index');
+    Route::get('/prediksi', fn () => to_route('dashboard', request()->only('page'))->withFragment('prediksi'))->name('prediksi.index');
     Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
     Route::put('/profil', [ProfilController::class, 'update'])->name('profil.update');
     Route::post('/profil/foto', [ProfilController::class, 'foto'])->name('profil.foto');

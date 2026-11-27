@@ -51,5 +51,6 @@
         </section>
     </div>
 </div>
+@include('dashboard.prediksi')
 @endsection
 @push('scripts')<script src="{{ asset('js/cuaca.js') }}"></script>@endpush

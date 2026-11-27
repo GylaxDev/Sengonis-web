@@ -53,7 +53,7 @@
             <a href="{{ route('keuangan.index') }}" @if(request()->routeIs('keuangan.*')) aria-current="page" @endif title="Keuangan"><i data-lucide="wallet"></i><span class="lbl">Keuangan</span>@if($owner && $shellSummary['keuangan'])<span class="cnt">{{ $shellSummary['keuangan'] }}</span>@endif</a>
             <a href="{{ route('laporan-keuangan.index') }}" @if(request()->routeIs('laporan-keuangan.*')) aria-current="page" @endif title="Laporan Keuangan"><i data-lucide="file-text"></i><span class="lbl">Laporan Keuangan</span>@if($owner && $shellSummary['laporan'])<span class="cnt">{{ $shellSummary['laporan'] }}</span>@endif</a>
             <a href="{{ route('laporan-kematian.index') }}" @if(request()->routeIs('laporan-kematian.*')) aria-current="page" @endif title="Laporan Kematian"><i data-lucide="triangle-alert"></i><span class="lbl">Laporan Kematian</span>@if($owner && $shellSummary['kematian'])<span class="cnt">{{ $shellSummary['kematian'] }}</span>@endif</a>
-            <a href="{{ route('prediksi.index') }}" @if(request()->routeIs('prediksi.*')) aria-current="page" @endif title="Prediksi"><i data-lucide="trending-up"></i><span class="lbl">Prediksi</span></a>
+
             @if($owner)
             <a href="{{ route('pengguna.index') }}" @if(request()->routeIs('pengguna.*')) aria-current="page" @endif title="Pengguna"><i data-lucide="users"></i><span class="lbl">Pengguna</span></a>
             @endif
